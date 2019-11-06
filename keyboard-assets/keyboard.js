@@ -48,7 +48,7 @@ const Keyboard = {
 
         var keyLayout = [];
 
-        if (this.properties.lang == true) {
+        if (this.properties.lang === true) {
             var enArr = [
                 "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
                 "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "lang",
@@ -56,16 +56,23 @@ const Keyboard = {
                 "done", "z", "x", "c", "v", "b", "n", "m", ",", ".", "?",
                 'tab', 'alt', "space", 'ctrl', 'tab'
             ];
+            keyLayout = [];
 
             for (el of enArr) {
                 keyLayout.push(el)
             }
 
-        } else if (this.properties.lang == false) {
+        } else {
 
             var ruArr = [
-                "c", "v", "b", "n", "m", ",", ".", "?"
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
+                "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", 'х', 'ъ', "lang",
+                "caps", "ф", "ы", "в", "а", "п", "р", "о", "л", "д", 'ж', 'э', 'ё', "enter",
+                "done", "я", "ч", "с", "м", "и", "т", "ь", ",", ".", "?",
+                'tab', 'alt', "space", 'ctrl', 'tab'
             ];
+
+            keyLayout = [];
 
             for (el of ruArr) {
                 keyLayout.push(el)
@@ -179,6 +186,15 @@ const Keyboard = {
                     keyElement.addEventListener('click', () => {
                         console.log('Lang switched');
                         this.properties.lang = !this.properties.lang;
+                        console.log(this.properties.lang);
+                        this.close();
+                        this.init();
+                        document.querySelectorAll(".use-keyboard-input").forEach(element => {
+                            this.open(element.value, currentValue => {
+                                element.value = currentValue;
+                            });
+
+                        });
 
                     })
 
@@ -243,33 +259,37 @@ const Keyboard = {
 
         window.addEventListener('keydown', function (e) {
 
-                for (el of Keyboard.elements.keys) {
-                    if (e.key == el.textContent.toLowerCase()) {
-                        el.classList.add('keyboard__key--press');
+            console.log(e);
 
-                    } else if (e.key == ' ') {
-                        if (el.textContent == 'space_bar') {
+
+            for (el of Keyboard.elements.keys) {
+                if (e.key == el.textContent.toLowerCase()) {
+                    el.classList.add('keyboard__key--press');
+
+                } else if (e.key == ' ') {
+                    if (el.textContent == 'space_bar') {
                         el.classList.add('keyboard__key--press')
-                        }
-                    } else if (e.key == 'Backspace') {
-                        if (el.textContent == 'backspace') {
+                    }
+                } else if (e.key == 'Backspace') {
+                    if (el.textContent == 'backspace') {
                         el.classList.add('keyboard__key--press')
-                        }
-                    } else if (e.key == 'Enter') {
-                        if (el.textContent == 'keyboard_return') {
+                    }
+                } else if (e.key == 'Enter') {
+                    if (el.textContent == 'keyboard_return') {
                         el.classList.add('keyboard__key--press')
-                        }
-                    } else if (e.key == 'CapsLock') {
-                        if (el.textContent == 'keyboard_capslock') {
+                    }
+                } else if (e.key == 'CapsLock') {
+                    if (el.textContent == 'keyboard_capslock') {
                         el.classList.add('keyboard__key--press')
-                        }
-                    } else if (e.key == 'Tab') {
-                        if (el.textContent == 'tab') {
-                        e.preventDefault();
+                        _toggleCapsLock();
+                    }
+                } else if (e.key == 'Tab') {
+                    if (el.textContent == 'tab') {
+                        e.preventDefault()
                         el.classList.add('keyboard__key--press')
-                        }
                     }
                 }
+            }
         })
 
 
@@ -281,30 +301,31 @@ const Keyboard = {
 
                 } else if (e.key == ' ') {
                     if (el.textContent == 'space_bar') {
-                    el.classList.remove('keyboard__key--press')
+                        el.classList.remove('keyboard__key--press');
                     }
                 } else if (e.key == 'Backspace') {
                     if (el.textContent == 'backspace') {
-                    el.classList.remove('keyboard__key--press')
+                        el.classList.remove('keyboard__key--press');
                     }
                 } else if (e.key == 'Enter') {
                     if (el.textContent == 'keyboard_return') {
-                    el.classList.remove('keyboard__key--press')
+                        el.classList.remove('keyboard__key--press');
                     }
                 } else if (e.key == 'CapsLock') {
                     if (el.textContent == 'keyboard_capslock') {
-                    el.classList.remove('keyboard__key--press')
+                        el.classList.remove('keyboard__key--press');
+                        _toggleCapsLock();
                     }
                 } else if (e.key == 'Tab') {
                     if (el.textContent == 'tab') {
-                    el.classList.remove('keyboard__key--press')
+                        el.classList.remove('keyboard__key--press');
                     }
                 }
             }
-    })
+        })
 
 
-}
+    }
 
 
 
@@ -320,25 +341,21 @@ div.appendChild(textarea);
 document.body.appendChild(div);
 
 
-// var langButton = document.querySelector('.language');
 
-// langButton.addEventListener('click', () => {
-
-
-//     if (Keyboard.properties.lang = true) {
-
-//         Keyboard._createKeys();
-
-//     } else {
-//         Keyboard._createKeys()
-//     }
-
+// textarea.addEventListener('blur', () => {
+//     Keyboard.
 // })
-
 
 
 window.addEventListener("DOMContentLoaded", function () {
     Keyboard.init();
-    Keyboard.lightButton()
+    Keyboard.lightButton();
+    var langButton = document.querySelector('.language');
+
+    // langButton.addEventListener('click', () => {
+
+    //     Keyboard.init();
+
+    // })
 
 });
